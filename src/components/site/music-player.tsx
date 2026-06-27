@@ -18,16 +18,13 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
-import qcsongs from "@/assets/qcsongs.mp3.asset.json";
-import ryotaqc from "@/assets/ryotaqc.mp3.asset.json";
-import ryotaqccountry from "@/assets/ryotaqccountry.mp3.asset.json";
 
 type Track = { title: string; artist: string; src: string };
 
 const PLAYLIST: Track[] = [
-  { title: "Ryota QC", artist: "Ryota QC Theme", src: ryotaqc.url },
-  { title: "QC Songs", artist: "Ryota QC Vibes", src: qcsongs.url },
-  { title: "Ryota QC Country", artist: "Country Edition", src: ryotaqccountry.url },
+  { title: "Ryota QC", artist: "Ryota QC Theme", src: "/music/ryotaqc.mp3" },
+  { title: "QC Songs", artist: "Ryota QC Vibes", src: "/music/qcsongs.mp3" },
+  { title: "Ryota QC Country", artist: "Country Edition", src: "/music/ryotaqccountry.mp3" },
 ];
 
 type Ctx = {
