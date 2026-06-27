@@ -21,7 +21,6 @@ import { Container, PageHero } from "../components/site/page-hero";
 import { Reveal } from "@/components/site/reveal";
 import { handleAIChat } from "@/lib/ai/chat.functions";
 import heroAi from "@/assets/sec-ai-hero.jpg";
-import aiRobot from "@/assets/ai-robot.png";
 import sopFisik from "@/assets/sop/fisik.jpg";
 import sopLcd from "@/assets/sop/lcd.jpg";
 import sopBattery from "@/assets/sop/battery.jpg";
@@ -89,6 +88,7 @@ function AiPage() {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [pending, setPending] = useState(false);
+  const [placeholder, setPlaceholder] = useState("Tulis pertanyaan untuk RyotaQC AI…");
   const taRef = useRef<HTMLTextAreaElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
   const sentInitial = useRef(false);
@@ -108,6 +108,22 @@ function AiPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialQ]);
+
+  useEffect(() => {
+    const placeholders = [
+      "Tulis pertanyaan untuk RyotaQC AI…",
+      "Contoh: Bagaimana cara cek battery health?",
+      "Contoh: Spek Lengkap Lenovo ThinkPad L13 Yoga i5-11 8/512",
+      "Contoh: Apa bedanya SSD SATA dan NVMe?",
+      "Contoh: Cara troubleshooting laptop overheat?",
+    ];
+    let index = 0;
+    const interval = setInterval(() => {
+      index = (index + 1) % placeholders.length;
+      setPlaceholder(placeholders[index]);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   const send = async (raw: string) => {
     const text = raw.trim();
@@ -228,7 +244,7 @@ function AiPage() {
                         send(input);
                       }
                     }}
-                    placeholder="Tulis pertanyaan untuk RyotaQC AI…"
+                    placeholder={placeholder}
                     className="flex-1 resize-none bg-transparent px-3 py-2 text-sm outline-none placeholder:text-muted-foreground"
                   />
                   <button
@@ -433,8 +449,8 @@ function AiPage() {
             <div className="rounded-3xl overflow-hidden border border-primary/30 bg-gradient-to-br from-primary/15 via-primary/5 to-transparent p-6 md:p-10 grid md:grid-cols-2 gap-6 items-center">
               <div className="flex items-center justify-center">
                 <img
-                  src={aiRobot}
-                  alt="RyotaQC AI Robot"
+                  src="/logo-rq.png"
+                  alt="RyotaQC Logo"
                   width={1024}
                   height={1024}
                   loading="lazy"

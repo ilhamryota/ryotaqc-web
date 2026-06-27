@@ -2,7 +2,6 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { Shield } from "lucide-react";
 import { GlobalSearch } from "./global-search";
 import { ThemeToggle } from "./theme-toggle";
-import logoRq from "@/assets/logorq.png.asset.json";
 
 
 const links = [
@@ -28,9 +27,9 @@ export function Navbar() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 h-14 flex items-center gap-3">
         <Link to="/" aria-label="Ryota QC" className="flex items-center gap-2 shrink-0 group">
           <img
-            src={logoRq.url}
-            alt="Ryota QC"
-            className="h-7 w-7 object-contain transition-transform group-hover:scale-110"
+            src="/logo-rq.png"
+            alt="Ryota QC Logo"
+            className="h-8 w-8 object-contain transition-transform group-hover:scale-110"
           />
           <span className="hidden sm:inline text-xs text-muted-foreground tracking-wide">
             Quality Control Platform untuk unit Laptop, MacBook, dan Desktop.

@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import logoRq from "@/assets/logorq.png.asset.json";
 import { useSiteSettings } from "@/hooks/use-site-settings";
 
 export function Footer() {
@@ -16,7 +15,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-10 grid gap-8 md:grid-cols-4 text-sm">
         <div>
           <div className="flex items-center gap-2">
-            <img src={s?.site_logo || logoRq.url} alt={name} className="h-8 w-8 object-contain" />
+            <img src={s?.site_logo || "/logo-rq.png"} alt={name} className="h-8 w-8 object-contain" />
             <div className="font-display text-lg font-bold">
               {name.replace(/QC$/i, "")}<span className="text-primary">QC</span>
             </div>
