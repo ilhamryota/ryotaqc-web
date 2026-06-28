@@ -20,7 +20,7 @@ interface ChatResponse {
  * This ensures API keys stay on the server and never exposed to client
  */
 export const handleAIChat = createServerFn({ method: "POST" })
-  .validator((data: unknown): ChatRequest => {
+  .inputValidator((data: unknown): ChatRequest => {
     if (typeof data !== "object" || !data) {
       throw new Error("Invalid request data");
     }

@@ -18,7 +18,6 @@ import { Footer } from "../components/site/footer";
 import { MusicProvider, FloatingMusicPlayer } from "../components/site/music-player";
 import { SectionErrorBoundary } from "../components/site/error-boundary";
 import { ScrollProgress } from "../components/site/reveal";
-import logoRq from "../assets/logorq.png.asset.json";
 import { useApplySettings, useSiteSettings } from "../hooks/use-site-settings";
 
 function NotFoundComponent() {
@@ -99,8 +98,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", type: "image/png", href: logoRq.url },
-      { rel: "apple-touch-icon", href: logoRq.url },
+      { rel: "icon", type: "image/png", href: "/logo-rq.png" },
+      { rel: "apple-touch-icon", href: "/logo-rq.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -118,7 +117,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               "@type": "Organization",
               name: "Ryota QC",
               description: "Sistem Quality Control laptop, MacBook, dan desktop berbasis prosedur.",
-              logo: logoRq.url,
+              logo: "/logo-rq.png",
             },
             {
               "@type": "WebSite",

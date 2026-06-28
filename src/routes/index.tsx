@@ -22,7 +22,6 @@ import {
   Award,
 } from "lucide-react";
 import { Reveal } from "@/components/site/reveal";
-import logoRq from "@/assets/logorq.png.asset.json";
 import heroDevices from "@/assets/hero-devices.jpg";
 import imgProsedur from "@/assets/menu/menu-prosedur.jpg";
 import imgSop from "@/assets/menu/menu-sop.jpg";
@@ -200,7 +199,7 @@ function Beranda() {
                 <form onSubmit={submit} className="mt-8 max-w-xl">
                   <div className="group flex items-center rounded-2xl border border-border bg-card/90 backdrop-blur px-3 py-2.5 shadow-sm focus-within:border-primary/50 focus-within:shadow-[var(--shadow-glow)] transition">
                     <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 ring-1 ring-primary/30 overflow-hidden">
-                      <img src={logoRq.url} alt="" aria-hidden="true" className="h-6 w-6 object-contain" />
+                      <img src="/logo-rq.png" alt="" aria-hidden="true" className="h-6 w-6 object-contain" />
                     </span>
                     <div className="ml-3 flex-1 text-left relative min-w-0">
                       <input
