@@ -33,6 +33,7 @@ type Ctx = {
   playing: boolean;
   visible: boolean;
   muted: boolean;
+  volume: number;
   progress: number;
   duration: number;
   play: () => void;
@@ -44,6 +45,7 @@ type Ctx = {
   show: () => void;
   hide: () => void;
   toggleMute: () => void;
+  setVolume: (vol: number) => void;
   seek: (pct: number) => void;
 };
 
@@ -62,6 +64,11 @@ export function MusicProvider({ children }: { children: ReactNode }) {
   const [playing, setPlaying] = useState(false);
   const [visible, setVisible] = useState(true);
   const [muted, setMuted] = useState(false);
+  const [volume, setVolumeState] = useState(() => {
+    if (typeof window === "undefined") return 70;
+    const saved = localStorage.getItem("ryotaqc-music-volume");
+    return saved ? parseInt(saved, 10) : 70;
+  });
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
 
@@ -71,7 +78,7 @@ export function MusicProvider({ children }: { children: ReactNode }) {
     if (audioRef.current) return; // guard StrictMode double-mount
     const a = new Audio(PLAYLIST[0].src);
     a.preload = "auto";
-    a.volume = 0.7;
+    a.volume = volume / 100;
     audioRef.current = a;
     const onTime = () => setProgress(a.currentTime);
     const onMeta = () => setDuration(a.duration || 0);
@@ -195,6 +202,14 @@ export function MusicProvider({ children }: { children: ReactNode }) {
     a.currentTime = pct * a.duration;
   }, []);
 
+  const setVolume = useCallback((vol: number) => {
+    const clamped = Math.max(0, Math.min(100, vol));
+    setVolumeState(clamped);
+    localStorage.setItem("ryotaqc-music-volume", clamped.toString());
+    const a = audioRef.current;
+    if (a) a.volume = clamped / 100;
+  }, []);
+
   const value = useMemo<Ctx>(
     () => ({
       playlist: PLAYLIST,
@@ -202,6 +217,7 @@ export function MusicProvider({ children }: { children: ReactNode }) {
       playing,
       visible,
       muted,
+      volume,
       progress,
       duration,
       play,
@@ -213,9 +229,10 @@ export function MusicProvider({ children }: { children: ReactNode }) {
       show: () => setVisible(true),
       hide: () => setVisible(false),
       toggleMute,
+      setVolume,
       seek,
     }),
-    [index, playing, visible, muted, progress, duration, play, pause, toggle, next, prev, selectIndex, toggleMute, seek],
+    [index, playing, visible, muted, volume, progress, duration, play, pause, toggle, next, prev, selectIndex, toggleMute, setVolume, seek],
   );
 
   return <MusicCtx.Provider value={value}>{children}</MusicCtx.Provider>;
@@ -315,10 +332,23 @@ export function FloatingMusicPlayer() {
         <button
           onClick={m.toggleMute}
           aria-label="Mute"
-          className="grid h-8 w-8 place-items-center rounded-lg hover:bg-accent/50 text-muted-foreground"
+          className="grid h-8 w-8 place-items-center rounded-lg hover:bg-accent/50 text-muted-foreground shrink-0"
         >
           {m.muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
         </button>
+        <div className="relative w-20 h-8 flex items-center group">
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={m.volume}
+            onChange={(e) => m.setVolume(Number(e.target.value))}
+            className="w-full h-1 bg-muted rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-primary [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:cursor-pointer"
+            style={{
+              background: `linear-gradient(to right, hsl(var(--primary)) 0%, hsl(var(--primary)) ${m.volume}%, hsl(var(--muted)) ${m.volume}%, hsl(var(--muted)) 100%)`
+            }}
+          />
+        </div>
         <span className="text-[10px] tabular-nums text-muted-foreground w-9 text-right">{fmt(m.duration)}</span>
       </div>
 
