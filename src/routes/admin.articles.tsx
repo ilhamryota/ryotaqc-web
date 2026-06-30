@@ -36,6 +36,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { importArticleFromUrl } from "@/lib/firecrawl-import.functions";
+import { RichTextEditor } from "@/components/admin/rich-text-editor";
 
 export const Route = createFileRoute("/admin/articles")({
   ssr: false,
@@ -693,7 +694,11 @@ function ArticleForm({
         <textarea rows={2} value={f.excerpt ?? ""} onChange={(e) => setF({ ...f, excerpt: e.target.value })} className={inputCls} />
       </Field>
       <Field label="Isi Artikel">
-        <textarea rows={10} value={f.content ?? ""} onChange={(e) => setF({ ...f, content: e.target.value })} className={inputCls + " font-mono text-xs"} />
+        <RichTextEditor
+          content={f.content ?? ""}
+          onChange={(html) => setF({ ...f, content: html })}
+          placeholder="Tulis konten artikel di sini..."
+        />
       </Field>
       <div className="grid md:grid-cols-2 gap-3">
         <Field label="URL Gambar Utama">
