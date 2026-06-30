@@ -74,6 +74,7 @@ function SopCard({ item }: { item: DbSop }) {
     <Link
       to="/sop/$kategori"
       params={{ kategori: item.slug }}
+      target="_blank"
       className="group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition hover:shadow-lg hover:-translate-y-0.5"
     >
       <div className={`relative aspect-[16/9] bg-gradient-to-br ${tint} overflow-hidden`}>

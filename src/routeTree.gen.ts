@@ -24,6 +24,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as SopKategoriRouteImport } from './routes/sop.$kategori'
 import { Route as QuizLevelRouteImport } from './routes/quiz.$level'
+import { Route as ProsedurStepRouteImport } from './routes/prosedur.$step'
 import { Route as KnowledgeLevelRouteImport } from './routes/knowledge.$level'
 import { Route as ArtikelSlugRouteImport } from './routes/artikel.$slug'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
@@ -115,6 +116,11 @@ const QuizLevelRoute = QuizLevelRouteImport.update({
   path: '/$level',
   getParentRoute: () => QuizRoute,
 } as any)
+const ProsedurStepRoute = ProsedurStepRouteImport.update({
+  id: '/$step',
+  path: '/$step',
+  getParentRoute: () => ProsedurRoute,
+} as any)
 const KnowledgeLevelRoute = KnowledgeLevelRouteImport.update({
   id: '/$level',
   path: '/$level',
@@ -199,7 +205,7 @@ export interface FileRoutesByFullPath {
   '/informasi': typeof InformasiRoute
   '/knowledge': typeof KnowledgeRouteWithChildren
   '/maintenance': typeof MaintenanceRoute
-  '/prosedur': typeof ProsedurRoute
+  '/prosedur': typeof ProsedurRouteWithChildren
   '/quiz': typeof QuizRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sop': typeof SopRouteWithChildren
@@ -219,6 +225,7 @@ export interface FileRoutesByFullPath {
   '/admin/users': typeof AdminUsersRoute
   '/artikel/$slug': typeof ArtikelSlugRoute
   '/knowledge/$level': typeof KnowledgeLevelRoute
+  '/prosedur/$step': typeof ProsedurStepRoute
   '/quiz/$level': typeof QuizLevelRoute
   '/sop/$kategori': typeof SopKategoriRoute
   '/admin/': typeof AdminIndexRoute
@@ -230,7 +237,7 @@ export interface FileRoutesByTo {
   '/informasi': typeof InformasiRoute
   '/knowledge': typeof KnowledgeRouteWithChildren
   '/maintenance': typeof MaintenanceRoute
-  '/prosedur': typeof ProsedurRoute
+  '/prosedur': typeof ProsedurRouteWithChildren
   '/quiz': typeof QuizRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sop': typeof SopRouteWithChildren
@@ -250,6 +257,7 @@ export interface FileRoutesByTo {
   '/admin/users': typeof AdminUsersRoute
   '/artikel/$slug': typeof ArtikelSlugRoute
   '/knowledge/$level': typeof KnowledgeLevelRoute
+  '/prosedur/$step': typeof ProsedurStepRoute
   '/quiz/$level': typeof QuizLevelRoute
   '/sop/$kategori': typeof SopKategoriRoute
   '/admin': typeof AdminIndexRoute
@@ -263,7 +271,7 @@ export interface FileRoutesById {
   '/informasi': typeof InformasiRoute
   '/knowledge': typeof KnowledgeRouteWithChildren
   '/maintenance': typeof MaintenanceRoute
-  '/prosedur': typeof ProsedurRoute
+  '/prosedur': typeof ProsedurRouteWithChildren
   '/quiz': typeof QuizRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sop': typeof SopRouteWithChildren
@@ -283,6 +291,7 @@ export interface FileRoutesById {
   '/admin/users': typeof AdminUsersRoute
   '/artikel/$slug': typeof ArtikelSlugRoute
   '/knowledge/$level': typeof KnowledgeLevelRoute
+  '/prosedur/$step': typeof ProsedurStepRoute
   '/quiz/$level': typeof QuizLevelRoute
   '/sop/$kategori': typeof SopKategoriRoute
   '/admin/': typeof AdminIndexRoute
@@ -317,6 +326,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/artikel/$slug'
     | '/knowledge/$level'
+    | '/prosedur/$step'
     | '/quiz/$level'
     | '/sop/$kategori'
     | '/admin/'
@@ -348,6 +358,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/artikel/$slug'
     | '/knowledge/$level'
+    | '/prosedur/$step'
     | '/quiz/$level'
     | '/sop/$kategori'
     | '/admin'
@@ -380,6 +391,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/artikel/$slug'
     | '/knowledge/$level'
+    | '/prosedur/$step'
     | '/quiz/$level'
     | '/sop/$kategori'
     | '/admin/'
@@ -393,7 +405,7 @@ export interface RootRouteChildren {
   InformasiRoute: typeof InformasiRoute
   KnowledgeRoute: typeof KnowledgeRouteWithChildren
   MaintenanceRoute: typeof MaintenanceRoute
-  ProsedurRoute: typeof ProsedurRoute
+  ProsedurRoute: typeof ProsedurRouteWithChildren
   QuizRoute: typeof QuizRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SopRoute: typeof SopRouteWithChildren
@@ -507,6 +519,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/quiz/$level'
       preLoaderRoute: typeof QuizLevelRouteImport
       parentRoute: typeof QuizRoute
+    }
+    '/prosedur/$step': {
+      id: '/prosedur/$step'
+      path: '/$step'
+      fullPath: '/prosedur/$step'
+      preLoaderRoute: typeof ProsedurStepRouteImport
+      parentRoute: typeof ProsedurRoute
     }
     '/knowledge/$level': {
       id: '/knowledge/$level'
@@ -664,6 +683,18 @@ const KnowledgeRouteWithChildren = KnowledgeRoute._addFileChildren(
   KnowledgeRouteChildren,
 )
 
+interface ProsedurRouteChildren {
+  ProsedurStepRoute: typeof ProsedurStepRoute
+}
+
+const ProsedurRouteChildren: ProsedurRouteChildren = {
+  ProsedurStepRoute: ProsedurStepRoute,
+}
+
+const ProsedurRouteWithChildren = ProsedurRoute._addFileChildren(
+  ProsedurRouteChildren,
+)
+
 interface QuizRouteChildren {
   QuizLevelRoute: typeof QuizLevelRoute
 }
@@ -692,7 +723,7 @@ const rootRouteChildren: RootRouteChildren = {
   InformasiRoute: InformasiRoute,
   KnowledgeRoute: KnowledgeRouteWithChildren,
   MaintenanceRoute: MaintenanceRoute,
-  ProsedurRoute: ProsedurRoute,
+  ProsedurRoute: ProsedurRouteWithChildren,
   QuizRoute: QuizRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SopRoute: SopRouteWithChildren,

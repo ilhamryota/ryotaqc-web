@@ -85,7 +85,12 @@ function StepCard({ step }: { step: DbStep }) {
   const img = step.featured_image || (step.image_key ? IMAGE_BY_KEY[step.image_key] : undefined);
   const tint = step.tint || "from-sky-100 to-blue-200 text-sky-700";
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition hover:shadow-lg hover:-translate-y-0.5">
+    <Link
+      to="/prosedur/$step"
+      params={{ step: String(step.step_number) }}
+      target="_blank"
+      className="group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition hover:shadow-lg hover:-translate-y-0.5 block"
+    >
       <div className={`relative aspect-[16/9] bg-gradient-to-br ${tint} overflow-hidden`}>
         {img && (
           <img src={img} alt={step.title} loading="lazy" width={896} height={512}
@@ -110,7 +115,7 @@ function StepCard({ step }: { step: DbStep }) {
           ))}
         </ul>
       </div>
-    </div>
+    </Link>
   );
 }
 
