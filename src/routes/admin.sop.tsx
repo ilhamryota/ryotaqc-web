@@ -10,6 +10,7 @@ import {
   ShieldCheck, Monitor, Keyboard, BatteryFull, HardDrive, Plug, Camera,
   Wifi, MousePointer, Gauge, Cpu,
 } from "lucide-react";
+import { RichTextEditor } from "@/components/admin/rich-text-editor";
 
 export const Route = createFileRoute("/admin/sop")({ ssr: false, component: AdminSop });
 
@@ -379,7 +380,13 @@ function SopForm({ initial, cats, onSave, onCancel }: { initial: Sop; cats: any[
           </select>
         </Field>
       </div>
-      <Field label="Isi SOP"><textarea rows={6} value={f.content ?? ""} onChange={(e) => setF({ ...f, content: e.target.value })} className={inputCls + " font-mono text-xs"} /></Field>
+      <Field label="Isi SOP">
+        <RichTextEditor
+          content={f.content ?? ""}
+          onChange={(html) => setF({ ...f, content: html })}
+          placeholder="Tulis isi SOP di sini..."
+        />
+      </Field>
       <Field label="Checklist (satu item per baris)">
         <textarea rows={4} value={checklistStr} onChange={(e) => setF({ ...f, checklist_items: e.target.value.split("\n").map((s) => s.trim()).filter(Boolean) })} className={inputCls + " text-xs"} />
       </Field>

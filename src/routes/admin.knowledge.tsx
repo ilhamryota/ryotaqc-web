@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { AddButton, Field, PageHeader, PrimaryButton, StatusBadge, inputCls } from "@/components/admin/ui";
 import { ConfirmDelete, Modal } from "@/components/admin/modal";
 import { Pencil, Trash2 } from "lucide-react";
+import { RichTextEditor } from "@/components/admin/rich-text-editor";
 
 export const Route = createFileRoute("/admin/knowledge")({ ssr: false, component: AdminKnowledge });
 
@@ -123,7 +124,13 @@ function KForm({ initial, onSave, onCancel }: { initial: K; onSave: (k: K) => vo
         </Field>
       </div>
       <Field label="Deskripsi"><textarea rows={2} value={f.excerpt ?? ""} onChange={(e) => setF({ ...f, excerpt: e.target.value })} className={inputCls} /></Field>
-      <Field label="Isi Materi"><textarea rows={10} value={f.content ?? ""} onChange={(e) => setF({ ...f, content: e.target.value })} className={inputCls + " font-mono text-xs"} /></Field>
+      <Field label="Isi Materi">
+        <RichTextEditor
+          content={f.content ?? ""}
+          onChange={(html) => setF({ ...f, content: html })}
+          placeholder="Tulis isi materi di sini..."
+        />
+      </Field>
       <div className="grid md:grid-cols-3 gap-3">
         <Field label="URL Gambar"><input value={f.featured_image ?? ""} onChange={(e) => setF({ ...f, featured_image: e.target.value })} className={inputCls} /></Field>
         <Field label="URL Video"><input value={f.video_url ?? ""} onChange={(e) => setF({ ...f, video_url: e.target.value })} className={inputCls} /></Field>

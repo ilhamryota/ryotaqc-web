@@ -29,6 +29,7 @@ import {
   ClipboardCheck,
   File as FileIcon,
 } from "lucide-react";
+import { RichTextEditor } from "@/components/admin/rich-text-editor";
 
 export const Route = createFileRoute("/admin/pages")({ ssr: false, component: AdminPages });
 
@@ -343,7 +344,13 @@ function AdminPages() {
               <Field label="Judul"><input required value={editing.title ?? ""} onChange={(e) => setEditing({ ...editing, title: e.target.value })} className={inputCls} /></Field>
               <Field label="Slug"><input required value={editing.slug ?? ""} onChange={(e) => setEditing({ ...editing, slug: e.target.value })} className={inputCls} /></Field>
             </div>
-            <Field label="Konten"><textarea rows={10} value={editing.content ?? ""} onChange={(e) => setEditing({ ...editing, content: e.target.value })} className={inputCls + " font-mono text-xs"} /></Field>
+            <Field label="Konten">
+              <RichTextEditor
+                content={editing.content ?? ""}
+                onChange={(html) => setEditing({ ...editing, content: html })}
+                placeholder="Tulis konten halaman di sini..."
+              />
+            </Field>
             <Field label="URL Gambar"><input value={editing.featured_image ?? ""} onChange={(e) => setEditing({ ...editing, featured_image: e.target.value })} className={inputCls} /></Field>
             <div className="grid md:grid-cols-2 gap-3">
               <Field label="Meta Title"><input value={editing.meta_title ?? ""} onChange={(e) => setEditing({ ...editing, meta_title: e.target.value })} className={inputCls} /></Field>
