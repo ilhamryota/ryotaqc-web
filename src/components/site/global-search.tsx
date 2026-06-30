@@ -12,7 +12,7 @@ type Hit = {
 
 // Static page/topic index — kept short so search is fast & no extra fetches.
 const PAGES: Hit[] = [
-  { title: "Prosedur QC", desc: "20 langkah pengecekan unit dari terima hingga status akhir", href: "/prosedur", group: "Halaman" },
+  { title: "Prosedur QC", desc: "Langkah pengecekan unit dari terima hingga status akhir", href: "/prosedur", group: "Halaman" },
   { title: "SOP QC", desc: "Standar operasional 11 kategori komponen", href: "/sop", group: "Halaman" },
   { title: "Informasi", desc: "Artikel edukasi software & hardware", href: "/informasi", group: "Halaman" },
   { title: "Maintenance", desc: "Panduan perawatan & troubleshooting", href: "/maintenance", group: "Halaman" },

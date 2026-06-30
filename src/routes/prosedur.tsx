@@ -39,7 +39,7 @@ export const Route = createFileRoute("/prosedur")({
   head: () => ({
     meta: [
       { title: "Prosedur QC — Ryota QC" },
-      { name: "description", content: "20 langkah Quality Control laptop & MacBook dalam 3 tahap: penerimaan, pengecekan fungsi, dan finalisasi." },
+      { name: "description", content: "Alur lengkap Quality Control laptop & MacBook: penerimaan, pengecekan fungsi, dan finalisasi." },
       { property: "og:title", content: "Prosedur QC — Ryota QC" },
       { property: "og:description", content: "Alur lengkap Quality Control unit laptop dari penerimaan hingga status akhir." },
       { property: "og:image", content: secProsedur },
@@ -66,13 +66,6 @@ function StepIcon({ name, className = "h-4.5 w-4.5 text-primary" }: { name: stri
   const Comp = (name && (Icons as any)[name]) || Icons.ClipboardCheck;
   return <Comp className={className} strokeWidth={2} />;
 }
-
-const stats = [
-  { icon: ClipboardList, label: "Langkah QC", value: "20", desc: "Alur pengecekan lengkap dan terstruktur." },
-  { icon: Layers, label: "Tahap Utama", value: "3", desc: "Pemeriksaan fisik, fungsi & sistem, finalisasi." },
-  { icon: Gauge, label: "Detail & Konsisten", value: "100%", desc: "Setiap hasil diuji dan dicatat dengan teliti." },
-  { icon: BadgeCheck, label: "Status Akhir", value: "Jelas & Terukur", desc: "Tentukan keputusan berdasarkan hasil QC." },
-];
 
 const statuses = [
   { kind: "lolos" as const, icon: CheckCircle2, title: "Lolos QC", desc: "Fisik aman, fungsi utama normal, sistem stabil, driver lengkap, Windows aktif, Computrace aman." },
@@ -143,6 +136,13 @@ function Prosedur() {
     });
     return Array.from(map.entries()).sort(([a], [b]) => a - b).map(([, v]) => v);
   }, [steps]);
+
+  const stats = [
+    { icon: ClipboardList, label: "Langkah QC", value: String(steps?.length ?? 0), desc: "Alur pengecekan lengkap dan terstruktur." },
+    { icon: Layers, label: "Tahap Utama", value: String(phases.length), desc: "Pemeriksaan fisik, fungsi & sistem, finalisasi." },
+    { icon: Gauge, label: "Detail & Konsisten", value: "100%", desc: "Setiap hasil diuji dan dicatat dengan teliti." },
+    { icon: BadgeCheck, label: "Status Akhir", value: "Jelas & Terukur", desc: "Tentukan keputusan berdasarkan hasil QC." },
+  ];
 
   return (
     <div>

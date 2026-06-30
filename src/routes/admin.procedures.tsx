@@ -200,7 +200,7 @@ function AdminProcedures() {
     <div>
       <PageHeader
         title="Prosedur QC"
-        description="Kelola 20 langkah Quality Control (urutan, tahap, checklist, gambar)."
+        description="Kelola langkah Quality Control (urutan, tahap, checklist, gambar)."
       />
 
       {/* Toolbar */}

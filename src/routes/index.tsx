@@ -98,14 +98,14 @@ function useTypewriter(words: string[]) {
 }
 
 const stats = [
-  { v: "20+", l: "Langkah Prosedur", d: "Pengecekan unit yang lengkap & terstruktur", icon: ClipboardList },
+  { v: "Lengkap", l: "Langkah Prosedur", d: "Pengecekan unit yang lengkap & terstruktur", icon: ClipboardList },
   { v: "11", l: "Kategori SOP", d: "Standar 11 kategori komponen utama", icon: ShieldCheck },
   { v: "40+", l: "Soal Quiz", d: "Uji pemahaman tim secara berkala", icon: Award },
   { v: "4", l: "Level Knowledge", d: "Materi belajar 4 level terstruktur", icon: BarChart3 },
 ];
 
 const features = [
-  { to: "/prosedur", title: "Prosedur QC", desc: "20 langkah pengecekan unit secara terstruktur", icon: ClipboardList, img: imgProsedur },
+  { to: "/prosedur", title: "Prosedur QC", desc: "Langkah pengecekan unit secara terstruktur", icon: ClipboardList, img: imgProsedur },
   { to: "/sop", title: "SOP QC", desc: "Standar 11 kategori komponen", icon: ShieldCheck, img: imgSop },
   { to: "/informasi", title: "Informasi", desc: "Artikel software & hardware terbaru", icon: FileText, img: imgInformasi },
   { to: "/maintenance", title: "Maintenance", desc: "Panduan perawatan & perbaikan", icon: Wrench, img: imgMaintenance },
