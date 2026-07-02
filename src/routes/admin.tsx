@@ -22,12 +22,11 @@ function AdminGate() {
   const { loading, user, isStaff } = useAuth();
   const path = typeof window !== "undefined" ? window.location.pathname : "";
 
-  // Login page renders standalone
-  if (path === "/admin/login") return <Outlet />;
-
   useEffect(() => {
-    if (!loading && !user) navigate({ to: "/admin/login" });
-  }, [loading, user, navigate]);
+    if (path !== "/admin/login" && !loading && !user) navigate({ to: "/admin/login" });
+  }, [path, loading, user, navigate]);
+
+  if (path === "/admin/login") return <Outlet />;
 
   if (loading) {
     return (
