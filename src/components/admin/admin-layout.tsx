@@ -147,9 +147,9 @@ export function AdminLayout() {
             >
               {resolved === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
-            <Link to="/" className="text-xs text-muted-foreground hover:text-foreground hidden md:inline">
+            <a href="/" className="text-xs text-muted-foreground hover:text-foreground hidden md:inline">
               ↗ Lihat website
-            </Link>
+            </a>
           </div>
         </header>
         <main className="flex-1 p-4 lg:p-6 overflow-x-hidden">

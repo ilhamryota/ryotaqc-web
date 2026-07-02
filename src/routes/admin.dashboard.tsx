@@ -57,33 +57,43 @@ function AdminDashboard() {
   const { data: stats } = useQuery({
     queryKey: ["admin-stats"],
     queryFn: async () => {
-      const [a, sop, kn, q, dr, pub, tools, pages, proc, media] = await Promise.all([
-        supabase.from("articles").select("id", { count: "exact", head: true }),
-        supabase.from("sop_items").select("id", { count: "exact", head: true }),
-        supabase.from("knowledge_materials").select("id", { count: "exact", head: true }),
-        supabase.from("quiz_questions").select("id", { count: "exact", head: true }),
-        supabase.from("articles").select("id", { count: "exact", head: true }).eq("status", "draft"),
-        supabase.from("articles").select("id", { count: "exact", head: true }).eq("status", "published"),
-        supabase.from("qc_tools").select("id", { count: "exact", head: true }),
-        supabase.from("pages").select("id", { count: "exact", head: true }),
-        supabase.from("procedure_steps").select("id", { count: "exact", head: true }),
-        supabase.from("media_library").select("file_type,file_size"),
+      const safeCount = async (query: PromiseLike<{ count: number | null; error: unknown }>) => {
+        const res = await query;
+        if (res.error) return 0;
+        return res.count ?? 0;
+      };
+      const safeRows = async <T,>(query: PromiseLike<{ data: T[] | null; error: unknown }>) => {
+        const res = await query;
+        if (res.error) return [];
+        return res.data ?? [];
+      };
+
+      const [a, sop, kn, q, dr, pub, tools, pages, proc, mediaRows] = await Promise.all([
+        safeCount(supabase.from("articles").select("id", { count: "exact", head: true })),
+        safeCount(supabase.from("sop_items").select("id", { count: "exact", head: true })),
+        safeCount(supabase.from("knowledge_materials").select("id", { count: "exact", head: true })),
+        safeCount(supabase.from("quiz_questions").select("id", { count: "exact", head: true })),
+        safeCount(supabase.from("articles").select("id", { count: "exact", head: true }).eq("status", "draft")),
+        safeCount(supabase.from("articles").select("id", { count: "exact", head: true }).eq("status", "published")),
+        safeCount(supabase.from("qc_tools").select("id", { count: "exact", head: true })),
+        safeCount(supabase.from("pages").select("id", { count: "exact", head: true })),
+        safeCount(supabase.from("procedure_steps").select("id", { count: "exact", head: true })),
+        safeRows(supabase.from("media_library").select("file_type,file_size")),
       ]);
-      const mediaRows = media.data ?? [];
       const images = mediaRows.filter((m: any) => (m.file_type ?? "").startsWith("image")).length;
       const videos = mediaRows.filter((m: any) => (m.file_type ?? "").startsWith("video")).length;
       const docs = mediaRows.length - images - videos;
       const totalBytes = mediaRows.reduce((s: number, m: any) => s + (m.file_size ?? 0), 0);
       return {
-        articles: a.count ?? 0,
-        sop: sop.count ?? 0,
-        knowledge: kn.count ?? 0,
-        quiz: q.count ?? 0,
-        drafts: dr.count ?? 0,
-        published: pub.count ?? 0,
-        tools: tools.count ?? 0,
-        pages: pages.count ?? 0,
-        procedures: proc.count ?? 0,
+        articles: a,
+        sop,
+        knowledge: kn,
+        quiz: q,
+        drafts: dr,
+        published: pub,
+        tools,
+        pages,
+        procedures: proc,
         mediaTotal: mediaRows.length,
         images, videos, docs, totalBytes,
       };
