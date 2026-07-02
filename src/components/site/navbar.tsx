@@ -1,5 +1,4 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Shield } from "lucide-react";
 import { GlobalSearch } from "./global-search";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -46,13 +45,6 @@ export function Navbar() {
             <GlobalSearch />
           </div>
           <ThemeToggle />
-          <Link
-            to="/admin/login"
-            className="inline-flex items-center gap-1.5 rounded-full bg-foreground text-background px-3 sm:px-4 py-2 text-sm font-medium hover:opacity-90 transition shadow-sm"
-          >
-            <Shield className="h-3.5 w-3.5" />
-            <span>Admin</span>
-          </Link>
         </div>
 
       </div>
