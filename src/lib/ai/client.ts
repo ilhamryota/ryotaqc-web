@@ -18,17 +18,26 @@ interface AIConfig {
   model?: string;
 }
 
-/**
- * Get AI configuration from environment variables
- */
 export function getAIConfig(): AIConfig {
-  const apiUrl = import.meta.env.VITE_AI_API_URL || process.env.VITE_AI_API_URL;
-  const apiKey = import.meta.env.VITE_AI_API_KEY || process.env.VITE_AI_API_KEY;
-  const model = import.meta.env.VITE_AI_MODEL || process.env.VITE_AI_MODEL || "9router/RyotaCode";
+  const apiUrl =
+    process.env.VITE_AI_API_URL ||
+    process.env.AI_API_URL ||
+    (typeof import.meta !== "undefined" && (import.meta as any).env?.VITE_AI_API_URL) ||
+    "";
+  const apiKey =
+    process.env.VITE_AI_API_KEY ||
+    process.env.AI_API_KEY ||
+    (typeof import.meta !== "undefined" && (import.meta as any).env?.VITE_AI_API_KEY) ||
+    "";
+  const model =
+    process.env.VITE_AI_MODEL ||
+    process.env.AI_MODEL ||
+    (typeof import.meta !== "undefined" && (import.meta as any).env?.VITE_AI_MODEL) ||
+    "RyotaCode";
 
   if (!apiUrl || !apiKey) {
     throw new Error(
-      "AI configuration missing. Please set VITE_AI_API_URL and VITE_AI_API_KEY in your .env file."
+      `AI configuration missing. apiUrl=${!!apiUrl}, apiKey=${!!apiKey}. Set env vars in Vercel dashboard.`
     );
   }
 
@@ -69,29 +78,32 @@ export async function sendAIChat(
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("AI API Error:", errorText);
+      console.error("[AI] API Error:", response.status, errorText);
       return {
         success: false,
         error: `AI API error: ${response.status} ${response.statusText}`,
       };
     }
 
-    const data = await response.json();
+    const rawText = await response.text();
 
-    // Extract message from OpenAI-compatible response
+    let data: any;
+    try {
+      const cleaned = rawText.replace(/\s*data:\s*\[DONE\]\s*$/i, "").trim();
+      data = JSON.parse(cleaned);
+    } catch {
+      console.error("[AI] JSON parse error. Raw response:", rawText.slice(0, 500));
+      return { success: false, error: "Failed to parse AI response" };
+    }
+
     const message = data.choices?.[0]?.message?.content || data.message;
 
     if (!message) {
-      return {
-        success: false,
-        error: "No response from AI",
-      };
+      console.error("[AI] No message in response:", JSON.stringify(data).slice(0, 300));
+      return { success: false, error: "No response from AI" };
     }
 
-    return {
-      success: true,
-      message: message.trim(),
-    };
+    return { success: true, message: message.trim() };
   } catch (error) {
     console.error("AI Chat Error:", error);
     return {

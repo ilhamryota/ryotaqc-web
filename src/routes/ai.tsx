@@ -85,7 +85,9 @@ function AiPage() {
       if (response.success && response.reply) {
         aiContent = response.reply;
       } else {
-        aiContent = "Maaf, saya mengalami kesulitan memproses permintaan Anda. Silakan coba lagi.";
+        const errDetail = response.error || "Unknown error";
+        console.error("[AI] Error:", errDetail);
+        aiContent = `**Maaf, terjadi kesalahan:**\n\n\`${errDetail}\``;
       }
 
       const aiMsg: Msg = { id: crypto.randomUUID(), role: "assistant", content: aiContent };

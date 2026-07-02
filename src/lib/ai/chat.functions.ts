@@ -40,32 +40,25 @@ export const handleAIChat = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }): Promise<ChatResponse> => {
     try {
-      // Build conversation messages
       const messages = [
         ...(data.conversationHistory || []),
         { role: "user" as const, content: data.message },
       ];
 
-      // Send to AI API
       const response = await sendAIChat(messages, RYOTAQC_SYSTEM_PROMPT);
 
       if (!response.success) {
-        console.error("AI Chat failed:", response.error);
+        console.error("[AI] Chat failed:", response.error);
         return {
           success: false,
-          error: response.error || "Failed to get AI response",
+          error: response.error || "AI API returned no response",
         };
       }
 
-      return {
-        success: true,
-        reply: response.message,
-      };
+      return { success: true, reply: response.message };
     } catch (error) {
-      console.error("Server function error:", error);
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : "Internal server error",
-      };
+      const msg = error instanceof Error ? error.message : "Unknown server error";
+      console.error("[AI] Server function error:", msg, error);
+      return { success: false, error: msg };
     }
   });
